@@ -1,0 +1,18 @@
+/* IRONTRAP R8.2 — cinematic credits + pixel character portraits */
+#credits{overflow:hidden;isolation:isolate;background:#06080c}
+#credits::before{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(circle at 18% 24%,rgba(242,193,78,.09) 0 1px,transparent 2px),radial-gradient(circle at 72% 18%,rgba(255,255,255,.07) 0 1px,transparent 2px),radial-gradient(circle at 42% 76%,rgba(126,224,129,.045) 0 1px,transparent 2px),linear-gradient(180deg,#090c12 0%,#05070b 48%,#0b0d10 100%);background-size:97px 97px,137px 137px,181px 181px,100% 100%}
+#credits::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(5,7,11,.97) 0%,transparent 15%,transparent 84%,rgba(5,7,11,.98) 100%)}
+#credits .credits-title{position:absolute;top:20px;left:0;right:0;z-index:3;margin:0;text-align:center;letter-spacing:.28em;text-shadow:0 2px 12px #000}
+#creditsViewport{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain}
+#creditsViewport::-webkit-scrollbar{display:none}
+#creditsRoll{width:min(700px,88vw);margin:0 auto;text-align:center;padding:72vh 20px 58vh;box-sizing:border-box;text-shadow:0 2px 8px #000}
+#creditsRoll p{margin:0 0 42px;font-size:15px;line-height:1.65;letter-spacing:.06em;color:#d9dde5}
+#creditsRoll p b{display:block;color:#fff;font-size:14px;letter-spacing:.18em;margin-bottom:5px}
+#creditsRoll .credits-game{margin-top:76px;font-size:18px}
+#creditsControls{position:absolute;left:0;right:0;bottom:18px;z-index:4;display:flex;align-items:center;justify-content:center;gap:12px;pointer-events:none}
+#creditsControls .btn{pointer-events:auto}
+#creditsHint{font-size:10px;letter-spacing:.14em;color:var(--dim);background:rgba(5,7,11,.65);padding:6px 9px;border:1px solid rgba(255,255,255,.08)}
+#creditsEgg{filter:drop-shadow(0 3px 4px #000);transition:transform .16s ease}
+#creditsEgg:hover,#creditsEgg:focus{transform:scale(1.18);outline:none}
+#creditsEggMsg{letter-spacing:.35em}
+.r7PixelThumb{width:100%;height:96px;display:block;border:1px solid rgba(255,255,255,.16);image-rendering:pixelated;image-rendering:crisp-edges;background:#080b12}
