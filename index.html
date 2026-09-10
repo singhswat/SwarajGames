@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>IRONTRAP</title>
+  <style>html,body{margin:0;width:100%;height:100%;background:#090b10;color:#eee;font-family:monospace}#boot{position:fixed;inset:0;display:grid;place-items:center;font-weight:900;letter-spacing:4px}</style>
+</head>
+<body>
+  <div id="boot">IRONTRAP</div>
+  <script>
+  (async()=>{
+    try{
+      if(!('DecompressionStream' in window)) throw new Error('This browser does not support gzip streaming. Please use a current Chrome, Edge, Firefox or Safari.');
+      const r=await fetch('/src/irontrap-r8.1.html.gz?v=R8.1',{cache:'no-store'});
+      if(!r.ok) throw new Error('Game bundle failed to load: HTTP '+r.status);
+      const ds=new DecompressionStream('gzip');
+      const html=await new Response(r.body.pipeThrough(ds)).text();
+      document.open(); document.write(html); document.close();
+    }catch(err){
+      document.getElementById('boot').textContent='IRONTRAP LOAD ERROR — '+err.message;
+      console.error(err);
+    }
+  })();
+  </script>
+</body>
+</html>
