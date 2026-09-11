@@ -1,0 +1,11 @@
+/* IRONTRAP R8.5 — expanded Swaraj Singh credits */
+#creditsRoll .credits-opening{font-size:22px;margin-bottom:88px;color:#fff}
+#creditsRoll .credits-opening b{font-size:28px;letter-spacing:.28em;color:var(--gold)}
+#creditsRoll .credits-special{margin-top:72px;font-size:17px}
+#creditsRoll .credits-special b{color:var(--gold);font-size:15px}
+#creditsRoll .credits-dedication{max-width:620px;margin:110px auto 76px;font-size:18px;line-height:1.9;color:#eef2f7}
+#creditsRoll .credits-dedication strong{display:block;margin-top:16px;font-size:27px;letter-spacing:.12em;color:var(--gold)}
+#creditsRoll .credits-signoff{margin-top:100px;font-size:19px;color:#fff}
+#creditsRoll .credits-signoff b{font-size:30px;letter-spacing:.32em;color:var(--gold);margin-bottom:16px}
+#creditsEgg{font-size:30px;background:none;border:0;cursor:pointer;padding:18px;color:#fff}
+#creditsEggMsg{min-height:28px;font-weight:bold;color:var(--gold);letter-spacing:.35em}
