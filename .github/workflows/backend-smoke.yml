@@ -1,0 +1,24 @@
+name: IRONTRAP backend smoke test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  leaderboard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check live leaderboard API
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL='https://irontrap.netlify.app/.netlify/functions/leaderboard?period=all&metric=fastest&limit=1'
+          code=$(curl --retry 3 --retry-delay 2 -sS -o /tmp/leaderboard.json -w '%{http_code}' "$URL")
+          echo "HTTP $code"
+          cat /tmp/leaderboard.json
+          echo
+          test "$code" = "200"
