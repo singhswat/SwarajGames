@@ -80,7 +80,7 @@
 
   const originalDraw=typeof drawPlayer==="function"?drawPlayer:null;
   function drawGear(id){
-    if(!window.ctx||!window.P)return;
+    if(typeof ctx==="undefined"||typeof P==="undefined")return;
     const g=ctx,s=skinFor(id),x=P.x|0,y=P.y|0,w=P.w,h=P.h,face=P.face||1;
     g.save();
     switch(id){
