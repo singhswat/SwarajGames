@@ -1,0 +1,101 @@
+/* IRONTRAP R8.4 — human roster names + guaranteed 8-character vault */
+#r7CharacterScreen{
+  position:fixed !important;
+  inset:0 !important;
+  box-sizing:border-box !important;
+  height:100dvh !important;
+  max-height:100dvh !important;
+  min-height:0 !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  justify-content:flex-start !important;
+  align-items:stretch !important;
+  padding:14px 14px 22px !important;
+  scrollbar-gutter:stable both-edges;
+  -webkit-overflow-scrolling:touch;
+}
+#r7CharacterScreen > div{
+  box-sizing:border-box !important;
+  width:min(1180px,100%) !important;
+  max-width:1180px !important;
+  margin:0 auto !important;
+  flex:0 0 auto !important;
+}
+#r7CharacterScreen h1{
+  font-size:clamp(25px,4vw,38px) !important;
+  line-height:1 !important;
+  margin:0 !important;
+}
+#r7CharacterScreen p{max-width:720px !important;}
+#r7CharGrid{
+  width:100% !important;
+  box-sizing:border-box !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:9px !important;
+  margin-top:12px !important;
+  align-items:stretch !important;
+}
+#r7CharGrid > div{
+  box-sizing:border-box !important;
+  min-width:0 !important;
+  min-height:214px !important;
+  padding:9px !important;
+  gap:5px !important;
+  overflow:hidden !important;
+}
+#r7CharGrid .r7PixelThumb{
+  width:100% !important;
+  height:70px !important;
+  flex:0 0 70px !important;
+  display:block !important;
+}
+#r7CharGrid small{
+  display:block;
+  font-size:9.5px !important;
+  line-height:1.18 !important;
+}
+#r7CharGrid .btn.small{
+  padding:6px 7px !important;
+  font-size:10px !important;
+  line-height:1.15 !important;
+  letter-spacing:1.2px !important;
+}
+#r7CharGrid + div{
+  position:sticky !important;
+  bottom:-1px !important;
+  z-index:4 !important;
+  margin-top:10px !important;
+  padding:9px 0 3px !important;
+  background:linear-gradient(180deg,transparent,rgba(3,7,18,.96) 34%) !important;
+}
+#r84RosterCount{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:6px;
+  padding:5px 9px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(3,7,18,.55);
+  color:#dce7ef;
+  font:700 10px/1 Consolas,monospace;
+  letter-spacing:1.4px;
+}
+@media (min-width:900px) and (max-height:720px){
+  #r7CharacterScreen{padding-top:9px !important;padding-bottom:12px !important;}
+  #r7CharacterScreen h1{font-size:27px !important;}
+  #r7CharacterScreen p{margin:2px 0 !important;font-size:11px !important;line-height:1.25 !important;}
+  #r7CharGrid{gap:6px !important;margin-top:7px !important;}
+  #r7CharGrid > div{min-height:188px !important;padding:7px !important;gap:3px !important;}
+  #r7CharGrid .r7PixelThumb{height:56px !important;flex-basis:56px !important;}
+  #r7CharGrid small{font-size:8.7px !important;line-height:1.08 !important;}
+  #r7CharGrid .btn.small{padding:4px 5px !important;font-size:9px !important;}
+}
+@media (max-width:899px){
+  #r7CharacterScreen{padding:12px 9px 20px !important;}
+  #r7CharGrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:9px !important;}
+  #r7CharGrid > div{min-height:218px !important;}
+}
+@media (max-width:500px){
+  #r7CharGrid{grid-template-columns:1fr !important;}
+  #r7CharGrid > div{min-height:210px !important;}
+}
