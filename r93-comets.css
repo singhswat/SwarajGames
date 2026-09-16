@@ -1,17 +1,14 @@
-/* IRONTRAP R94 — visible varied-size comet rain for redesigned front page */
-#title.r91-home{position:relative;isolation:isolate}
+/* IRONTRAP R95 — comet rain works on both original and redesigned title screens */
+#title{position:relative;isolation:isolate}
 #title.r91-home .r91-shell{position:relative;z-index:2}
 #title.r91-home .r91-topbar,#title.r91-home .r91-hero-content,#title.r91-home .r91-dots,#title.r91-home .r91-filters,#title.r91-home .r91-section-head,#title.r91-home .r91-grid{position:relative;z-index:5}
-#r93CometField{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden;contain:layout paint style}
+#title>h1,#title>p,#title>#keyhelp,#title>.row,#title>#r7CharactersBtn,#title>#bAchievements{position:relative;z-index:5}
+#r93CometField{position:fixed;inset:0;z-index:3;pointer-events:none;overflow:hidden;contain:layout paint style}
 #title:not(.show) #r93CometField{display:none}
-.r93-comet{position:absolute;left:0;top:0;width:var(--head);height:var(--head);border-radius:50%;background:radial-gradient(circle at 34% 34%,#fff 0 16%,#ffe9ae 17% 36%,#f2c14e 37% 62%,rgba(242,193,78,.15) 63% 100%);box-shadow:0 0 calc(var(--head)*1.2) rgba(242,193,78,.88),0 0 calc(var(--head)*2.8) rgba(255,123,61,.46);opacity:var(--alpha);transform:translate3d(var(--sx),var(--sy),0) rotate(var(--angle));will-change:transform,opacity;animation:r93CometFall var(--dur) linear forwards}
-.r93-comet::before{content:"";position:absolute;right:calc(var(--head)*.45);top:50%;width:var(--tail);height:max(2px,calc(var(--head)*.38));transform:translateY(-50%);transform-origin:right center;background:linear-gradient(90deg,transparent 0%,rgba(104,196,255,.14) 18%,rgba(242,193,78,.28) 46%,rgba(255,236,179,.92) 86%,#fff 100%);filter:blur(calc(var(--head)*.05));border-radius:999px}
+.r93-comet{position:absolute;left:0;top:0;width:var(--head);height:var(--head);border-radius:50%;background:radial-gradient(circle at 34% 34%,#fff 0 16%,#ffe9ae 17% 36%,#f2c14e 37% 62%,rgba(242,193,78,.15) 63% 100%);box-shadow:0 0 calc(var(--head)*1.2) rgba(242,193,78,.95),0 0 calc(var(--head)*2.9) rgba(255,123,61,.52);opacity:var(--alpha);transform:translate3d(var(--sx),var(--sy),0) rotate(var(--angle));will-change:transform,opacity;animation:r93CometFall var(--dur) linear forwards}
+.r93-comet::before{content:"";position:absolute;right:calc(var(--head)*.45);top:50%;width:var(--tail);height:max(2px,calc(var(--head)*.4));transform:translateY(-50%);transform-origin:right center;background:linear-gradient(90deg,transparent 0%,rgba(104,196,255,.16) 18%,rgba(242,193,78,.32) 46%,rgba(255,236,179,.96) 86%,#fff 100%);filter:blur(calc(var(--head)*.05));border-radius:999px}
 .r93-comet::after{content:"";position:absolute;inset:20%;border-radius:50%;background:#fff;box-shadow:0 0 calc(var(--head)*.9) #fff}
-.r93-comet.tiny{--head:3px}
-.r93-comet.small{--head:6px}
-.r93-comet.medium{--head:10px}
-.r93-comet.large{--head:16px}
-.r93-comet.hero{--head:25px}
+.r93-comet.tiny{--head:3px}.r93-comet.small{--head:6px}.r93-comet.medium{--head:10px}.r93-comet.large{--head:16px}.r93-comet.hero{--head:25px}
 @keyframes r93CometFall{0%{transform:translate3d(var(--sx),var(--sy),0) rotate(var(--angle));opacity:0}5%{opacity:var(--alpha)}82%{opacity:var(--alpha)}100%{transform:translate3d(var(--ex),var(--ey),0) rotate(var(--angle));opacity:0}}
 @media(max-width:680px){.r93-comet.hero{--head:19px}.r93-comet.large{--head:12px}}
 @media(prefers-reduced-motion:reduce){#r93CometField{display:none!important}}
