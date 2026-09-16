@@ -1,4 +1,4 @@
-name: IRONTRAP backend smoke test
+name: IRONTRAP Vercel smoke test
 
 on:
   push:
@@ -9,16 +9,25 @@ permissions:
   contents: read
 
 jobs:
-  leaderboard:
+  vercel:
     runs-on: ubuntu-latest
     steps:
-      - name: Check live leaderboard API
+      - name: Check live IRONTRAP site
         shell: bash
         run: |
           set -euo pipefail
-          URL='https://irontrap.netlify.app/.netlify/functions/leaderboard?period=all&metric=fastest&limit=1'
-          code=$(curl --retry 3 --retry-delay 2 -sS -o /tmp/leaderboard.json -w '%{http_code}' "$URL")
-          echo "HTTP $code"
-          cat /tmp/leaderboard.json
-          echo
-          test "$code" = "200"
+          BASE='https://irontrap.vercel.app'
+          for path in '/' '/r93-comets.js?v=97' '/r93-comets.css?v=97'; do
+            code=$(curl --retry 5 --retry-delay 2 -LsS -o /tmp/out -w '%{http_code}' "$BASE$path")
+            echo "$path -> HTTP $code"
+            test "$code" = "200"
+          done
+
+      - name: Verify comet build is referenced by production loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --retry 5 --retry-delay 2 -LsS 'https://irontrap.vercel.app/' -o /tmp/index.html
+          grep -q 'r93-comets.css?v=97' /tmp/index.html
+          grep -q 'r93-comets.js?v=97' /tmp/index.html
+          echo 'R97 comet assets are referenced by the live Vercel loader.'
