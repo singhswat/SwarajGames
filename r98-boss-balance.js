@@ -6,15 +6,16 @@ function bossDef(e){try{return e&&typeof ENEMIES!=='undefined'?ENEMIES[e.type]:n
 function isBoss(e){const d=bossDef(e);return !!(d&&d.isBoss);}
 function floorNum(){try{return Number(G&&G.num)||0;}catch(_){return 0;}}
 
+// Floor 10 is a straight health-bar boss: no endurance/final-phase lock.
+// Its displayed bar is its real HP and reaching zero kills it immediately.
 function balanceFloor10Boss(e){
-  if(!e||e.dead||!isBoss(e)||floorNum()!==10||e.__r98Balanced)return;
-  e.__r98Balanced=true;
+  if(!e||e.dead||!isBoss(e)||floorNum()!==10||e.__r103Balanced)return;
+  e.__r103Balanced=true;
   const oldMax=Math.max(1,Number(e.maxhp)||Number(e.hp)||1);
   const ratio=Math.max(0,Math.min(1,(Number(e.hp)||oldMax)/oldMax));
-  const newMax=Math.max(1,Math.round(oldMax*0.45));
+  const newMax=Math.max(1,Math.round(oldMax*0.30));
   e.maxhp=newMax;
   e.hp=Math.max(1,Math.round(newMax*ratio));
-  try{if(typeof popText==='function')popText(e.x+e.w/2,e.y-24,'BOSS WEAKENED','#ffd166');}catch(_){}
 }
 
 function forceBossDeath(e){
@@ -27,7 +28,7 @@ function forceBossDeath(e){
   return false;
 }
 
-if(typeof damageEnemy==='function'&&!damageEnemy.__r98){
+if(typeof damageEnemy==='function'&&!damageEnemy.__r103){
   const old=damageEnemy;
   const wrapped=function(e,...rest){
     balanceFloor10Boss(e);
@@ -35,11 +36,11 @@ if(typeof damageEnemy==='function'&&!damageEnemy.__r98){
     forceBossDeath(e);
     return out;
   };
-  wrapped.__r98=true;
+  wrapped.__r103=true;
   try{damageEnemy=wrapped;}catch(_){window.damageEnemy=wrapped;}
 }
 
-if(typeof updateEnemies==='function'&&!updateEnemies.__r98){
+if(typeof updateEnemies==='function'&&!updateEnemies.__r103){
   const old=updateEnemies;
   const wrapped=function(...args){
     const out=old.apply(this,args);
@@ -55,10 +56,10 @@ if(typeof updateEnemies==='function'&&!updateEnemies.__r98){
     }catch(_){}
     return out;
   };
-  wrapped.__r98=true;
+  wrapped.__r103=true;
   try{updateEnemies=wrapped;}catch(_){window.updateEnemies=wrapped;}
 }
 
-// Ensure any remaining endurance timer logic cannot keep a defeated boss alive.
+// Permanently disable the old three-minute/final-phase survival gate.
 try{keepBossInEndurancePhase=function(){return false;};}catch(_){try{window.keepBossInEndurancePhase=function(){return false;};}catch(__){}}
 })();
