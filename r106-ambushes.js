@@ -16,7 +16,7 @@ function aliveNonBoss(){try{return (G.enemies||[]).filter(e=>e&&!e.dead&&!isBoss
 function hasLiveBossOrMini(){try{return !!(G.boss&&typeof bossAlive==="function"&&bossAlive())||(G.enemies||[]).some(isMiniEnemy);}catch(_){return true;}}
 function solidTile(c){
   try{return (typeof SOLID!=="undefined"&&SOLID.has(c))||(typeof THIN!=="undefined"&&THIN.has(c));}
-  catch(_){return "#ST+-.".slice(0,-1).includes(String(c||""));}
+  catch(_){return "#ST+-.=".replace('.','').includes(String(c||""));}
 }
 function tile(tx,ty){
   try{
