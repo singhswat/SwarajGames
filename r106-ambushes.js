@@ -48,6 +48,7 @@ function suitableFloor(n){
   if(n%10===0||MINI_FLOORS.has(n))return false;
   try{if(typeof shouldHaveWorkbench==="function"&&shouldHaveWorkbench(n))return false;}catch(_){}
   try{if(G&&G.boss)return false;}catch(_){}
+  if(window.IronTrapEncounters&&!window.IronTrapEncounters.allowsAmbush())return false;
   return true;
 }
 function triggerChance(n){
@@ -180,9 +181,12 @@ function tickAmbush(){
     }
     return;
   }
+  if(window.IronTrapEncounters&&!window.IronTrapEncounters.allowsAmbush()){
+    a.complete=true;a.warning=false;return;
+  }
   if(a.triggered)return;
   if((G.time||0)<(a.triggerAt||0))return;
-  if(!a.warning){warnAmbush(a);return;}
+  if(!a.warning){if(!playerInQuietSpot())warnAmbush(a);return;}
   if((G.time||0)>=(a.warnUntil||0))releaseAmbush(a);
 }
 
@@ -191,6 +195,7 @@ if(typeof startFloor==="function"&&!startFloor.__r106Ambush){
   const wrapped=function(...args){
     const out=old.apply(this,args);
     try{initAmbush();}catch(e){console.warn("R106 ambush init",e);}
+    if(window.IronTrapEncounters)window.IronTrapEncounters.announce();
     return out;
   };
   wrapped.__r106Ambush=true;
@@ -201,6 +206,7 @@ if(typeof updateEnemies==="function"&&!updateEnemies.__r106Ambush){
   const old=updateEnemies;
   const wrapped=function(...args){
     const out=old.apply(this,args);
+    if(window.IronTrapEncounters)window.IronTrapEncounters.tick();
     try{tickAmbush();}catch(e){console.warn("R106 ambush tick",e);}
     return out;
   };
@@ -212,9 +218,27 @@ if(typeof exitOpen==="function"&&!exitOpen.__r106Ambush){
   const old=exitOpen;
   const wrapped=function(...args){
     try{if(G&&G.r106Ambush&&G.r106Ambush.active&&ambushAlive(G.r106Ambush))return false;}catch(_){}
+    if(window.IronTrapEncounters){
+      const decision=window.IronTrapEncounters.exitDecision();
+      if(decision!==null)return decision;
+    }
     return old.apply(this,args);
   };
   wrapped.__r106Ambush=true;
   try{exitOpen=wrapped;}catch(_){window.exitOpen=wrapped;}
+}
+
+if(typeof respawn==="function"&&!respawn.__r106Ambush){
+  const old=respawn;
+  respawn=function(...args){
+    const out=old.apply(this,args);
+    if(G&&G.r106Ambush){
+      G.enemies=G.enemies.filter(e=>!e.fromAmbush);
+      Object.assign(G.r106Ambush,{complete:true,active:false,warning:false});
+    }
+    if(window.IronTrapEncounters)window.IronTrapEncounters.respawn();
+    return out;
+  };
+  respawn.__r106Ambush=true;
 }
 })();
