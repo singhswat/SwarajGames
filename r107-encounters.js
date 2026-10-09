@@ -291,7 +291,12 @@
   const oldBuild = buildLevel;
   buildLevel = function(...args) { const result = oldBuild.apply(this, args); initialize(); return result; };
   const oldDraw = drawPickups;
-  drawPickups = function(...args) { const result = oldDraw.apply(this, args); drawObjectives(); return result; };
+  drawPickups = function(...args) {
+    const result = oldDraw.apply(this, args);
+    drawObjectives();
+    if (window.IronTrapArcade) window.IronTrapArcade.draw();
+    return result;
+  };
   const oldHUD = refreshHUD;
   refreshHUD = function(...args) {
     for (const el of [document.getElementById("killcount"), document.getElementById("biome")].filter(Boolean)) {

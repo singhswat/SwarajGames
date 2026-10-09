@@ -196,6 +196,7 @@ if(typeof startFloor==="function"&&!startFloor.__r106Ambush){
     const out=old.apply(this,args);
     try{initAmbush();}catch(e){console.warn("R106 ambush init",e);}
     if(window.IronTrapEncounters)window.IronTrapEncounters.announce();
+    if(window.IronTrapArcade)window.IronTrapArcade.onFloor();
     return out;
   };
   wrapped.__r106Ambush=true;
@@ -208,6 +209,7 @@ if(typeof updateEnemies==="function"&&!updateEnemies.__r106Ambush){
     const out=old.apply(this,args);
     if(window.IronTrapEncounters)window.IronTrapEncounters.tick();
     try{tickAmbush();}catch(e){console.warn("R106 ambush tick",e);}
+    if(window.IronTrapArcade)window.IronTrapArcade.tick();
     return out;
   };
   wrapped.__r106Ambush=true;
@@ -237,6 +239,7 @@ if(typeof respawn==="function"&&!respawn.__r106Ambush){
       Object.assign(G.r106Ambush,{complete:true,active:false,warning:false});
     }
     if(window.IronTrapEncounters)window.IronTrapEncounters.respawn();
+    if(window.IronTrapArcade)window.IronTrapArcade.respawn();
     return out;
   };
   respawn.__r106Ambush=true;
