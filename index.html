@@ -21,7 +21,7 @@
     const bin = Uint8Array.from(atob(packed), c => c.charCodeAt(0));
     let html = await new Response(new Blob([bin]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
     const gameplay = [];
-    for (const file of ['r106-ambushes.js?v=107', 'r107-encounters.js?v=107']) {
+    for (const file of ['r105-random-loot.js?v=108', 'r106-ambushes.js?v=107', 'r107-encounters.js?v=108']) {
       const response = await fetch(file, { cache: 'no-store' });
       if (!response.ok) throw new Error(file + ' HTTP ' + response.status);
       gameplay.push(await response.text());
@@ -29,10 +29,11 @@
     const lock1 = `  if (d.isBoss && (G.time - (G.bossEngagedAt === null ? G.time : G.bossEngagedAt)) < 180 * 60 && !save.cheats.gunOne && !save.cheats.saberOne && e.hp <= 0) {\n    e.hp = 1;\n    if (frame % 60 === 0) popText(e.x + e.w / 2, e.y - 18, "FINAL PHASE LOCKED", "#f2c14e");\n  }\n`;
     const lock2 = `function keepBossInEndurancePhase(e, d) {\n  if (!d.isBoss || save.cheats.gunOne || save.cheats.saberOne) return false;\n  if (G.bossEngagedAt === null) G.bossEngagedAt = G.time;\n  if (G.time - G.bossEngagedAt < 180 * 60 && e.hp <= 0) { e.hp = 1; return true; }\n  return false;\n}`;
     html = html.replace(lock1, '').replace(lock2, 'function keepBossInEndurancePhase(e, d) { return false; }');
+    html = html.replace('const gold = mulberry(num * 977 + x * 31 + y)() < 0.10;', 'const gold = Math.random() < 0.10;');
     const scriptTag = source => '<scr' + 'ipt src="' + source + '"></scr' + 'ipt>';
     const css = ['r82-patch.css?v=82', 'r83-patch.css?v=83', 'r84-patch.css?v=84', 'r85-credits.css?v=85', 'r87-systems.css?v=87', 'r91-home.css?v=91', 'r93-comets.css?v=97'];
     html = html.replace('</head>', scriptTag('r85-pre.js?v=85') + css.map(file => '<link rel="stylesheet" href="' + file + '">').join('') + '</head>');
-    const legacy = ['r82-patch.js?v=82', 'r83-patch.js?v=83', 'r84-patch.js?v=84', 'r85-credits.js?v=85', 'r86-boss-death.js?v=86', 'r87-systems.js?v=87', 'r88-hitfx.js?v=88', 'r89-achievements.js?v=89', 'r90-finale-summary.js?v=90', 'r91-home.js?v=91', 'r93-comets.js?v=97', 'r98-boss-balance.js?v=103', 'r101-latest.js?v=101', 'r104-credits.js?v=104', 'r105-random-loot.js?v=105'];
+    const legacy = ['r82-patch.js?v=82', 'r83-patch.js?v=83', 'r84-patch.js?v=84', 'r85-credits.js?v=85', 'r86-boss-death.js?v=86', 'r87-systems.js?v=87', 'r88-hitfx.js?v=88', 'r89-achievements.js?v=89', 'r90-finale-summary.js?v=90', 'r91-home.js?v=91', 'r93-comets.js?v=97', 'r98-boss-balance.js?v=103', 'r101-latest.js?v=101', 'r104-credits.js?v=104'];
     const gameplayTags = gameplay.map(code => '<scr' + 'ipt>' + code + '</scr' + 'ipt>').join('');
     // Preserve the existing legacy load condition, including exports without a body closer.
     html = html.includes('</body>') ? html.replace('</body>', legacy.map(scriptTag).join('') + gameplayTags + '</body>') : html + gameplayTags + '</body></html>';

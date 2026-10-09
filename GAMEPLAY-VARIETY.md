@@ -12,7 +12,7 @@ an optional supply cache with a small group of guards and an open exit.
   A touch tap starts the action. Moving away cancels partial progress.
 - Marked target: defeat the highlighted enemy; its remaining guards are optional.
 - Patrol: retain the original exit tolerance with fewer, curated enemies.
-- Supply detour: collect the optional cache for scrap and ammo, or leave immediately.
+- Supply detour: collect the optional cache for randomized supplies, or leave immediately.
 
 Objective placement uses the existing movement graph and collision checks.
 Recovery and breakout floors add thin catwalks without replacing rock, hazards,
@@ -30,13 +30,26 @@ respawn. A full floor restart resets the encounter, like existing floor loot.
 
 ## Integration
 
+R108 loads `r105-random-loot.js` before the encounter scripts. Ordinary chest
+quality, floor power-ups, and eligible armour grades roll afresh on floor creation.
+Chest contents replace the fixed base bundle: guaranteed currency plus two or
+three weighted rewards for ordinary chests, three to five for gold chests.
+Rewards vary between health, ammunition, throwables, powers, armour, currency,
+and rare upgrades/weapons. Full health/ammunition categories are skipped; item
+types do not repeat within a chest. Optional caches roll one or two supply rewards.
+Opened containers do not pay again on checkpoint retries. Guaranteed gold chests,
+weapon unlocks, relics, quest rewards, and placed health/ammo pickups remain intact.
+Ordinary enemies retain the original weighted drop table; bosses and mini-bosses
+add a bounded random bonus once per entity. Armour rolls now use the supplied RNG
+rather than always picking a grade from the floor number.
+
 `r106-ambushes.js` remains the single owner of the start-floor, enemy-update,
 exit, and checkpoint hooks. It calls the encounter service in `r107-encounters.js`.
 Ambushes cannot start during recovery, sabotage, breakout, or cache encounters,
 or after a marked target is defeated. Checkpoint respawns discard ambush entities
 to prevent a cleared wave from reappearing. Duplicate script loads are ignored.
 
-The loader fetches both gameplay scripts before writing the packed document,
+The loader fetches gameplay scripts before writing the packed document,
 then installs them in order after the base game. The current packed export omits
 its closing body tag. The previous loader's conditional legacy patch activation
 is preserved; this change does not enable previously inactive legacy scripts.
@@ -47,6 +60,7 @@ With Playwright and a Chromium browser installed, run:
 
 ```sh
 node tests/encounters.cjs
+node tests/loot.cjs
 ```
 
 Optional environment variables: `IRONTRAP_PLAYWRIGHT` selects a Playwright module

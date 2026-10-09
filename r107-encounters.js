@@ -139,6 +139,11 @@
     popText(p.x + p.w / 2, p.y - 16, s.kind === "sabotage" ? "RELAY OFFLINE" : s.kind === "scavenge" ? "CACHE SECURED" : "CORE RECOVERED", COLORS[s.kind]);
     if (s.kind === "scavenge" && !s.rewarded) {
       s.rewarded = true;
+      if (window.IronTrapLoot) {
+        const lines = window.IronTrapLoot.rewardCache(p);
+        toast("SUPPLY CACHE", lines.join(" / "));
+        return;
+      }
       const bonus = 4 + G.biome.n * 2;
       save.scrap = (save.scrap || 0) + bonus;
       G.pickups.push(mkPickup(p.x, p.y - TS, "ammo"));
